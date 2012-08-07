@@ -172,6 +172,8 @@ class GoogleSitemap extends Controller {
 		
 		$newPages->merge($this->addRegisteredDataObjects());
 		
+		$this->extend("updateItems", $newPages);
+		
 		return $newPages;
 	}
 	
