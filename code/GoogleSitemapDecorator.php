@@ -6,16 +6,16 @@
  * 
  * @package googlesitemaps
  */
-class GoogleSitemapDecorator extends DataObjectDecorator {
+class GoogleSitemapDecorator extends DataExtension {
     
 }
 
 /**
  * @package googlesitemaps
  */
-class GoogleSitemapSiteTreeDecorator extends SiteTreeDecorator {
+class GoogleSitemapSiteTreeDecorator extends SiteTreeExtension {
 
-	function extraStatics() {
+	function extraStatics($class = null, $extension = null) {
 		return array(
 			'db' => array(
 				"Priority" => "Varchar(5)",
@@ -23,7 +23,7 @@ class GoogleSitemapSiteTreeDecorator extends SiteTreeDecorator {
 		);
 	}
 
-	function updateCMSFields(&$fields) {
+	function updateCMSFields(FieldList $fields) {
 		$prorities = array(
 			'' => _t('SiteTree.PRIORITYAUTOSET', 'Auto-set based on page depth'),
 			'-1' => _t('SiteTree.PRIORITYNOTINDEXED', "Not indexed"), // We set this to -ve one because a blank value implies auto-generation of Priority
@@ -59,7 +59,7 @@ class GoogleSitemapSiteTreeDecorator extends SiteTreeDecorator {
 		$labels['Priority'] = _t('SiteTree.METAPAGEPRIO', "Page Priority");
 	}
 
-	function onAfterPublish() {
+	function onAfterPublish(&$original) {
 		GoogleSitemap::ping();
 	}
 
